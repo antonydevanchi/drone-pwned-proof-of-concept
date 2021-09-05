@@ -1,11 +1,6 @@
 ---
 kind: pipeline
-type: docker
-name: nuclei
-
-platform:
-  arch: amd64
-  os: linux
+name: default
   
 steps:
 - name: run nuclei
