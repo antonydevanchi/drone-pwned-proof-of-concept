@@ -1,0 +1,16 @@
+kind: pipeline
+type: docker
+name: nuclei
+
+platform:
+  arch: amd64
+  os: linux
+  
+steps:
+- name: run nuclei
+  image: projectdiscovery/nuclei:latest
+  commands:
+  - nuclei -u https://localhost
+  environment:
+    GOARCH: arm64
+    GOOS: linux
