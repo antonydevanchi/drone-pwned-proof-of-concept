@@ -1,12 +1,26 @@
 ---
 kind: pipeline
+type: exec
 name: default
-  
+
+platform:
+  os: linux
+  arch: amd64
+
 steps:
-- name: run nuclei
-  image: projectdiscovery/nuclei:latest
+- name: nuclei
   commands:
-  - nuclei -u https://localhost
+  - go get -v -u github.com/xm1k3/cent
+  - go get -v -u github.com/projectdiscovery/dnsx/cmd/dnsx
+  - go get -v -u github.com/projectdiscovery/httpx/cmd/httpx
+  - go get -v -u github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+  - go get -v -u github.com/projectdiscovery/naabu/v2/cmd/naabu
+  - cent init
+  - cent -p ~/nuclei-templates -k -C -t 100
+  - nuclei -u http://127.0.0.1 -impact critical,high,medium
   environment:
-    GOARCH: arm64
-    GOOS: linux
+    GO111MODULE: on
+    
+trigger:
+  branch:
+  - main
